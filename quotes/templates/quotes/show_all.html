@@ -1,0 +1,45 @@
+<!--quotes/templates/quotes/about.html -->
+{% extends 'quotes/base.html' %}
+
+    {% block content %}
+    
+
+    
+    
+    <table>
+        <tr>
+            <th>Show All</th>
+        </tr>
+        <tr>
+            <td>
+                <br>
+                    <h3>{{ quotes.0 }}</h3>
+                <br>
+                    <img src="{{ images.0 }}" height="200">
+                <br>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <br>
+                    <h3>{{ quotes.1 }}</h3>
+                <br>
+                    <img src="{{ images.1 }}" height="200">
+                <br>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <br>
+                    <h3>{{ quotes.2 }}</h3>
+                <br>
+                    <img src="{{ images.2 }}" height="200">
+                <br>
+            </td>
+        </tr>
+    </table>
+    
+    
+        
+    
+    {% endblock %}

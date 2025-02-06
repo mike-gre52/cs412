@@ -1,0 +1,24 @@
+<!--quotes/templates/quotes/base.html -->
+{% load static %}
+<html>
+    <head>
+        <title>Hello, world!</title>
+        <link rel="stylesheet", href="{% static 'styles.css' %}">
+    </head>
+    <body>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home_page' %}">Home</a></li>
+                <li><a href="{% url 'show_all' %}">See All</a></li>
+                <li><a href="{% url 'about_page' %}">About</a></li>
+            </ul>
+        </nav>
+       
+        <h1>Eleanor Roosevelt</h1>
+
+        <!-- put page specific content here -->
+         {% block content %}
+         {% endblock %}
+
+    </body>
+</html>

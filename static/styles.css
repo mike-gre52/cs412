@@ -15,4 +15,31 @@ a, a:visited {
     text-decoration: none;
 }
 
-    
+table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #54617a;
+}
+  
+td, th {
+    border: 1px solid #54617a;
+    text-align: left;
+    padding: 8px;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;  
+    padding: 0;
+    margin: 0;
+}
+
+nav li {
+    margin-right: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
