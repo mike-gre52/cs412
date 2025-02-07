@@ -20,7 +20,7 @@ def home_page(request):
     '''Respond to the URL '', delegate work template.'''
 
     template_name = 'quotes/home.html'
-    # a dict of context variables (key-value pairs)
+    # a dict of context variables (key-value pairs) for /
     context = {
         'quote' : quotes[random.randint(0,2)],
         'image' : images[random.randint(0,2)],
@@ -32,7 +32,7 @@ def quote(request):
     '''Respond to the URL 'quote', delegate work template.'''
 
     template_name = 'quotes/home.html'
-    # a dict of context variables (key-value pairs)
+    # a dict of context variables (key-value pairs) for /quote
     context = {
         'quote' : quotes[random.randint(0,2)],
         'image' : images[random.randint(0,2)],
@@ -44,15 +44,14 @@ def about(request):
     '''Respond to the URL 'about', delegate work template.'''
 
     template_name = 'quotes/about.html'
-    # a dict of context variables (key-value pairs
-
+     # a dict of context variables (key-value pairs) for /about
     return render(request, template_name)
 
 def show_all(request):
     '''Respond to the URL 'show_all', delegate work template.'''
 
     template_name = 'quotes/show_all.html'
-    # a dict of context variables (key-value pairs
+     # a dict of context variables (key-value pairs) for /show_all
 
     context = {
         'quotes' : quotes,
