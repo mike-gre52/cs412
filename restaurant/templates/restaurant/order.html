@@ -1,0 +1,54 @@
+<!-- restaurant/templates/restaurant/order.html -->
+
+<!-- Created by Mike Greene -->
+
+<!-- html file defining Order form "/order" -->
+
+
+{% extends 'restaurant/base.html' %}
+
+{% block content %}
+<div>
+<h1>Place an Order</h1>
+
+<form action="{% url 'submit' %}" method="POST">
+    {% csrf_token %}
+
+    <h3>Select Items</h3>
+
+    <input type="checkbox" name="items" value="item1">
+    <label>Chicken Parmesan Sub $18</label><br>
+
+    <input type="checkbox" name="items" value="item2">
+    <label>Meatball Sub $15</label><br>
+
+    <input type="checkbox" name="items" value="item3">
+    <label>Fettuccine Alfredo $15</label><br>
+
+    <input type="checkbox" name="items" value="item3.1" id="sub">
+    <label>Add Chicken $4</label><br>
+
+    <input type="checkbox" name="items" value="item3.2" id="sub">
+    <label>Add Broccoli $2</label><br>
+    
+    <h3>Todays Specials</h3>
+    <input type="checkbox" id="special" name="special" value="Special">
+    <label for="special">{{special}}</label><br><br>
+
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required><br><br>
+
+    <label for="email">Email:</label>
+    <input type="text" id="email" name="email" required><br><br>
+
+    <label for="phone">Phone Number:</label>
+    <input type="text" id="phone" name="phone" required><br><br>
+
+    <h3>Special Instructions</h3>
+    <textarea id="special_instructions" name="special_instructions" rows="4" cols="50"></textarea> <br><br>
+
+    <input type="submit">
+
+</form>
+</div>
+{% endblock %}
