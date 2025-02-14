@@ -24,6 +24,7 @@ def home_page(request):
     context = {
         'quote' : quotes[random.randint(0,2)],
         'image' : images[random.randint(0,2)],
+    
     }
 
     return render(request, template_name, context)
