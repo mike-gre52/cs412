@@ -1,0 +1,33 @@
+<!-- restaurant/templates/restaurant/confirmation.html -->
+
+ <!-- Created by Mike Greene -->
+
+<!-- html file "/confirmation" link -->
+
+{% extends 'restaurant/base.html' %}
+
+{% block content %}
+<div>
+<h1>Success, your order was recieved</h1>
+
+    <h4>Your order will be ready at: {{order_time}}</h4>
+
+    <h3>Order: Price ${{price}}</h3>
+
+    {% for item in order %}
+    <p>{{ item }}</p>
+    {% endfor %}
+
+
+    <h3>Special instructions:</h3>
+
+    <p>{{special_instructions}}</p>
+
+    <h3>Customer information</h3>
+
+    <p>{{name}}</p> 
+    <p>{{phone}}</p> 
+    <p>{{email}}</p> 
+
+</div>
+{% endblock %}
