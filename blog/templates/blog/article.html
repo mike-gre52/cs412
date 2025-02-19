@@ -1,0 +1,24 @@
+<!-- templates/article.html -->
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<h1>{{article.title}}</h1>
+<!-- scriptlet code to display the value of the variable `articles` 
+{{ articles }}
+-->
+<main class="grid-container">
+    <article>
+        <div>
+            <h2>{{article.title}}</h2>
+            <h3>by {{article.author}} at {{article.published}}</h3>
+            <p>
+                {{article.text}}
+            </p>
+        </div>
+        <img src="{{article.image_url}}" alt="">
+        
+    </article>
+    <hr>
+
+<main>
+{% endblock %}
