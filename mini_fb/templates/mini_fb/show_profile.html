@@ -1,0 +1,30 @@
+<!-- templates/mini_fb/show_profile.html -->
+{% extends 'mini_fb/base.html' %}
+
+{% block content %}
+
+
+<main class="grid-container">
+
+    <h1 id="page_header">Profile</h1>
+
+    <table border="1">
+        <tr>
+            <td>
+                <img id="individual_profile" src="{{ profile.image_url }}" alt="Profile Image" >
+            </td>
+            <td>
+                <h2>{{ profile.first_name }} {{ profile.last_name }}</h2>
+                <h3>{{ profile.city }}</h3>
+                <h3>{{ profile.email }}</h3>
+            </td>
+           
+        </tr>
+    </table>
+
+
+
+</main>
+{% endblock %}
+
+

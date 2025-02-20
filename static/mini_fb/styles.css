@@ -1,0 +1,62 @@
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100; /* Ensures full height */
+  margin: 0;
+  background-color: #f4f4f4;
+  font-family: Arial, sans-serif;
+  color: #184154;
+
+}
+
+/* Table styling */
+table {
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: auto; 
+  margin-bottom: 10px;
+  border-color: #1f556e;
+  
+}
+
+
+td {
+  padding: 15px;
+  vertical-align: middle;
+}
+
+
+img {
+  width: 100px;
+  height: 100px;
+  border-radius: 15%;
+  object-fit: cover;
+}
+
+/* Profile name link */
+a {
+  text-decoration: none;
+  color: #184154;
+}
+
+h2, h3 {
+  margin: 5px 0;
+}
+
+#logo {
+  color: #1f556e;
+}
+
+#individual_profile {
+  width: 200px;
+  height: 200px;
+}
+
+#page_header{
+  text-align: center;
+}

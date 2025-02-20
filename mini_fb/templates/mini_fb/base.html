@@ -1,0 +1,25 @@
+<!-- mini_fb/templates/mini_fb/base.html -->
+
+{% load static %}
+<html>
+    <head>
+        <title>Facebooooook</title>
+        <link rel="stylesheet" href="{% static 'mini_fb/styles.css' %}">
+    </head>
+    <body>
+        <header>
+            <a href="{% url 'show_all' %}">
+                <h1 id="logo">Facebooooook</h1>
+            </a>
+
+        </header>
+    <!-- Substitute specific content here-->
+    {% block content %}
+    {% endblock %}    
+  
+    </body>
+
+    <footer>
+
+    </footer>
+</html>
