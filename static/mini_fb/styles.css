@@ -3,7 +3,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100; /* Ensures full height */
+  min-height: 100; 
   margin: 0;
   background-color: #f4f4f4;
   font-family: Arial, sans-serif;
@@ -11,7 +11,7 @@ body {
 
 }
 
-/* Table styling */
+
 table {
   border-collapse: collapse;
   background: white;
@@ -21,7 +21,6 @@ table {
   width: auto; 
   margin-bottom: 10px;
   border-color: #1f556e;
-  
 }
 
 
@@ -38,7 +37,7 @@ img {
   object-fit: cover;
 }
 
-/* Profile name link */
+
 a {
   text-decoration: none;
   color: #184154;
