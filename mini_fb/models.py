@@ -12,5 +12,23 @@ class Profile(models.Model):
 
     def __str__(self):
         return f'Name: {self.first_name} {self.last_name}, City: {self.city}, Email: {self.email}'
+    
+    def get_status_messages(self):
+        '''Return a QuerySet to get all status messages about this Profile'''
+
+        status_messages = StatusMessage.objects.filter(profile=self)
+        return status_messages
+    
+class StatusMessage(models.Model):
+
+    message = models.TextField(blank=True)
+    timestamp = models.DateTimeField(auto_now=True)
+    profile = models.ForeignKey("Profile", on_delete=models.CASCADE)
+
+    def __str__(self):
+        '''Return a string representation of this Comment object.'''
+        return f'{self.message} at {self.timestamp}'
+    
+
 
 

@@ -1,24 +1,45 @@
 <!-- templates/article.html -->
+
 {% extends 'blog/base.html' %}
+<h1>{{article.title}}</h1>
 
 {% block content %}
-<h1>{{article.title}}</h1>
-<!-- scriptlet code to display the value of the variable `articles` 
-{{ articles }}
--->
 <main class="grid-container">
-    <article>
-        <div>
-            <h2>{{article.title}}</h2>
-            <h3>by {{article.author}} at {{article.published}}</h3>
-            <p>
-                {{article.text}}
-            </p>
-        </div>
-        <img src="{{article.image_url}}" alt="">
+    
+    <article class="featured">
+        {% if article.image_url %}
+		<img src="{{article.image_url}}" alt="{{article.image_url}}">
+		{% endif %}
         
+        <div>
+        <h2>{{article.title}}</h2>
+        <strong>by {{article.author}} at {{article.published}}</strong>
+        <p>
+        {{article.text}}
+        </p>
+        </div>
     </article>
-    <hr>
 
-<main>
+    <div>
+        <h2>Comments</h2>
+
+        <h3>
+            <a href="{% url 'create_comment' article.pk%}">Create a comment</a>
+        </h3>
+
+        <!-- Comments:
+        {{article.get_all_comments}} -->
+
+        {% for comment in article.get_all_comments %}
+        <article>
+            <div>
+            <strong>by {{comment.author}} at {{comment.published}}</strong>
+            <p>
+            {{comment.text}}
+            </div>
+        </article>
+
+        {% endfor %}
+</div>
+</main>
 {% endblock %}
