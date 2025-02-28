@@ -8,10 +8,15 @@
     </head>
     <body>
         <header>
+            <nav>
             <a href="{% url 'show_all' %}">
                 <h1 id="logo">Facebooooook</h1>
             </a>
 
+            <a href="{% url 'create_profile' %}">
+                <h3>Create Profile</h3>
+            </a>
+            </nav>
         </header>
     <!-- Substitute specific content here-->
     {% block content %}

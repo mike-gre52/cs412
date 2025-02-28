@@ -27,6 +27,12 @@
         <p>{{ status_message.message }}</p>
     {% endfor %}
 
+    <a href="{% url 'create_status' profile.pk%}">
+        <h3 id="status_message_button">Add Status Message</h3>
+    </a>
+    <br>
+    <br>
+
 
 </main>
 {% endblock %}

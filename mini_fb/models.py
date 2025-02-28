@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 
@@ -18,6 +19,9 @@ class Profile(models.Model):
 
         status_messages = StatusMessage.objects.filter(profile=self)
         return status_messages
+    
+    def get_absolute_url(self) -> str:
+        return reverse('profile', kwargs= {"pk":self.pk})
     
 class StatusMessage(models.Model):
 

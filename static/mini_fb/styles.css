@@ -11,7 +11,6 @@ body {
 
 }
 
-
 table {
   border-collapse: collapse;
   background: white;
@@ -49,6 +48,10 @@ h2, h3 {
 
 #logo {
   color: #1f556e;
+}
+
+#status_message_button {
+  color: #423b87;
 }
 
 #individual_profile {
