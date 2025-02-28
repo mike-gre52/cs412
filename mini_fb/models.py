@@ -1,3 +1,6 @@
+#mini_fb/models.py
+#created by Mike Greene
+
 from django.db import models
 from django.urls import reverse
 

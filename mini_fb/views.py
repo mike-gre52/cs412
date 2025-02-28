@@ -1,3 +1,6 @@
+#mini_fb/views.py
+#created by Mike Greene
+
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView #Displays a single instance of one model
 from .models import Profile, StatusMessage

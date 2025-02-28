@@ -1,6 +1,9 @@
 from django import forms
 from .models import Profile, StatusMessage
 
+#mini_fb/forms.py
+#created by Mike Greene
+
 class CreateProfileForm(forms.ModelForm):
     '''A form to add a Profile to the database.'''
 
