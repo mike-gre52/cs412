@@ -32,10 +32,27 @@ class StatusMessage(models.Model):
     timestamp = models.DateTimeField(auto_now=True)
     profile = models.ForeignKey("Profile", on_delete=models.CASCADE)
 
+    def get_images(self):
+        status_images = StatusImage.objects.filter(status_message=self)
+        print("status images:" , status_images)
+        images = []
+        for status_image in status_images:
+            images.append(status_image.image)
+        return images
+
     def __str__(self):
         '''Return a string representation of this Comment object.'''
         return f'{self.message} at {self.timestamp}'
     
+class Image(models.Model):
 
+    image_file = models.ImageField(blank=True)
+    profile = models.ForeignKey("Profile", on_delete=models.CASCADE)
+    caption = models.TextField(blank=False)
+    timestamp = models.DateTimeField(auto_now=True)
+
+class StatusImage(models.Model):
+    image = models.ForeignKey("Image", on_delete=models.CASCADE)
+    status_message = models.ForeignKey("StatusMessage", on_delete=models.CASCADE)
 
 

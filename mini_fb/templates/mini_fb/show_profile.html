@@ -26,6 +26,10 @@
     {% for status_message in profile.get_status_messages %}
         <h3>{{ status_message.timestamp }}</h3>
         <p>{{ status_message.message }}</p>
+        
+        {% for img in status_message.get_images %}
+            <img src='{{img.image_file.url}}' alt='{{img.image_file.url}}'>
+        {% endfor %}
     {% endfor %}
 
     <a href="{% url 'create_status' profile.pk%}">
