@@ -62,3 +62,27 @@ h2, h3 {
 #page_header{
   text-align: center;
 }
+
+#profile-button {
+  color: #e9edee;
+  background-color: #1f556e;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  display: inline-block;
+}
+
+#status-button {
+  color: #e9edee;
+  background-color: #1f556e;
+  border-radius: 4px;
+  padding: 2px;
+  text-align: center;
+  display: inline-block;
+}
+
+.button-container {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}

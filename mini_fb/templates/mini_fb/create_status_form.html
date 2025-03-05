@@ -8,11 +8,15 @@
 <h1>Create a new status message for: {{profile.first_name}} {{profile.last_name}}</h1>
 
 <!-- display the HTML form -->
- <form method="POST">
+ <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <table>
         {{form.as_table}}
      </table>
+
+     <input type="file" name = "files" multiple />
+     <br>
+     <br>
 
      <input type="submit" name="submit" value="Submit">
  </form>

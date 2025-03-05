@@ -22,6 +22,17 @@
         </tr>
     </table>
 
+    <div class="button-container">
+        <a href="{% url 'update_profile' profile.pk%}">
+            <h3 id="profile-button">Update Profile</h3>
+        </a>
+    
+        <a href="{% url 'create_status' profile.pk%}">
+            <h3 id="profile-button">Add Status Message</h3>
+        </a>
+    </div>
+    
+
     <h1>Status Messages:</h1>
     {% for status_message in profile.get_status_messages %}
         <h3>{{ status_message.timestamp }}</h3>
@@ -30,11 +41,19 @@
         {% for img in status_message.get_images %}
             <img src='{{img.image_file.url}}' alt='{{img.image_file.url}}'>
         {% endfor %}
+
+        <br>
+        <a href="{% url 'delete_status' status_message.pk %}">
+            <h3 id="status-button">Delete</h3>
+        </a>
+        <a href="{% url 'update_status' status_message.pk %}">
+            <h3 id="status-button">Update</h3>
+        </a>
+
+        
     {% endfor %}
 
-    <a href="{% url 'create_status' profile.pk%}">
-        <h3 id="status_message_button">Add Status Message</h3>
-    </a>
+    
     <br>
     <br>
 

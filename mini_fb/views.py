@@ -2,9 +2,9 @@
 #created by Mike Greene
 
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView #Displays a single instance of one model
-from .models import Profile, StatusMessage
-from .forms import CreateProfileForm, CreateStatusMessageForm
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView #Displays a single instance of one model
+from .models import Profile, Image, StatusImage, StatusMessage
+from .forms import CreateProfileForm, CreateStatusMessageForm, UpdateProfileForm, UpdateStatusMessageForm
 from django.urls import reverse
 
 # Create your views here.
@@ -73,7 +73,65 @@ class CreateStatusMessageView(CreateView):
         #attach this profile to the comment
         form.instance.profile = profile # Set the Foreign Key
 
+        sm = form.save() #Reference to the new StatusMessage object
+
+        files = self.request.FILES.getlist('files') # Read the file from the form
+
+        for file in files:
+            image = Image.objects.create(
+                image_file = file,
+                profile = profile,
+            )
+            image.save()
+
+            status_image = StatusImage.objects.create(
+                image = image,
+                status_message = sm,
+            )
+            status_image.save()
+
         #delegate the work to the superclass method form_valid:
         return super().form_valid(form)
 
+class UpdateProfileView(UpdateView):
+    '''View class to handle update of profile based on its PK.'''
 
+    model = Profile
+    form_class = UpdateProfileForm
+    template_name = "mini_fb/update_profile_form.html"
+
+class DeleteStatusMessageView(DeleteView):
+    '''A view to delete a StatusMessage and remove it from the database.'''
+
+    template_name = "mini_fb/delete_status_message_form.html"
+    model = StatusMessage
+    context_object_name = 'status_message'
+
+    def get_success_url(self):
+        '''Return a the URL to which we should be directed after the delete.'''
+
+        # get the pk for this StatusMessage
+        pk = self.kwargs.get('pk')
+        status_message = StatusMessage.objects.get(pk=pk)
+        profile = status_message.profile
+        
+        # find the article to which this Comment is related by FK
+        #article = comment.article
+        
+        # reverse to show the article page
+        return reverse('profile', kwargs={'pk':profile.pk})
+    
+class UpdateStatusView(UpdateView):
+    '''View class to handle update of Status based on its PK.'''
+
+    model = StatusMessage
+    form_class = UpdateStatusMessageForm
+    template_name = "mini_fb/update_status_message_form.html"
+
+    def get_context_data(self, ):
+        '''Make the profile and status_message available in the template.'''
+
+        context = super().get_context_data()
+        context["profile"] = self.object.profile
+        context["status_message"] = self.object
+        return context

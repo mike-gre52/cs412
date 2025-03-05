@@ -7,7 +7,7 @@
 <h1>Update this Article</h1>
 
 <!-- display the HTML form -->
-<form accept="{% url 'update_article' article.pk %}" method="POST" enctype="multipart/form-data">
+<form accept="{% url 'update_article' status_message.profile.pk %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <table>
         {{form.as_table}}

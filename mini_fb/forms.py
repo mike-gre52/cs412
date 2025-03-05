@@ -21,3 +21,20 @@ class CreateStatusMessageForm(forms.ModelForm):
         
         model = StatusMessage
         fields = ['message']
+
+
+class UpdateProfileForm(forms.ModelForm):
+    '''A form to handle an update to an Profile'''
+
+    class Meta:
+        '''associate this form with a model from our database.'''
+        model = Profile
+        fields = ["city", "email", "image_url"]
+
+class UpdateStatusMessageForm(forms.ModelForm):
+    '''A form to handle an update to a Status Message'''
+
+    class Meta:
+        '''associate this form with a model from our database.'''
+        model = StatusMessage
+        fields = ["message"]
