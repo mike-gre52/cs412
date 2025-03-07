@@ -135,3 +135,17 @@ class UpdateStatusView(UpdateView):
         context["profile"] = self.object.profile
         context["status_message"] = self.object
         return context
+    
+    def get_success_url(self):
+        '''Return a the URL to which we should be directed after the update.'''
+
+        # get the pk for this StatusMessage
+        pk = self.kwargs.get('pk')
+        status_message = StatusMessage.objects.get(pk=pk)
+        profile = status_message.profile
+        
+        # find the article to which this Comment is related by FK
+        #article = comment.article
+        
+        # reverse to show the article page
+        return reverse('profile', kwargs={'pk':profile.pk})
