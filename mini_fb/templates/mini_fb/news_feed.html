@@ -1,0 +1,35 @@
+<!-- templates/mini_fb/news_feed.html -->
+<!-- Created by Mike Greene -->
+{% extends 'mini_fb/base.html' %}
+
+{% block content %}
+<h1 id="page_header">News Feed</h1>
+
+<main>
+    <table border="1">
+        <a href="{% url 'profile' object.pk %}">
+            <h2>Back to profile</h1>
+        </a>
+        <h1>Status Messages:</h1>
+        {% for status_message in object.get_news_feed %}
+        <tr>
+           <td> <h3>{{ status_message.timestamp }}</h3>
+            <p>{{ status_message.message }}</p>
+            
+                {% for img in status_message.get_images %}
+                    <img src='{{img.image_file.url}}' alt='{{img.image_file.url}}'>
+                {% endfor %}
+            </td>
+        </tr>
+            {% empty %}
+            <tr>
+                <td>No news.</td>
+            </tr>
+            
+        {% endfor %}
+    </table>
+</main>
+{% endblock %}
+
+
+

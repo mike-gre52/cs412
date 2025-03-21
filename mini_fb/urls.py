@@ -2,7 +2,7 @@
 #created by Mike Greene
 
 from django.urls import path
-from .views import ShowAllProfilesView, ShowProfilePageView, CreateProfileView, CreateStatusMessageView, UpdateProfileView, DeleteStatusMessageView, UpdateStatusView, AddFriendView, ShowFriendSuggestionsView # our view class definition 
+from .views import ShowAllProfilesView, ShowProfilePageView, CreateProfileView, CreateStatusMessageView, UpdateProfileView, DeleteStatusMessageView, UpdateStatusView, AddFriendView, ShowFriendSuggestionsView, ShowNewsFeedView # our view class definition 
 
 urlpatterns = [
     path('', ShowAllProfilesView.as_view(), name='show_all'),
@@ -14,5 +14,7 @@ urlpatterns = [
     path('status/<int:pk>/update', UpdateStatusView.as_view(), name='update_status'),
     path('profile/<int:pk>/add_friend/<int:other_pk>', AddFriendView.as_view(), name='add_friend'),
     path('profile/<int:pk>/friend_suggestions', ShowFriendSuggestionsView.as_view(), name='friend_suggestions'),
+    path('profile/<int:pk>/news_feed', ShowNewsFeedView.as_view(), name='news_feed'),
+
 ]
 

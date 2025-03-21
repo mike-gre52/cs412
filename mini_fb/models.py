@@ -7,7 +7,7 @@ from django.urls import reverse
 # Create your models here.
 
 class Profile(models.Model):
-
+    ''' Profile object model'''
     first_name = models.TextField(blank=True)
     last_name = models.TextField(blank=True)
     city = models.TextField(blank=True)
@@ -24,9 +24,11 @@ class Profile(models.Model):
         return status_messages
     
     def get_absolute_url(self) -> str:
+        '''Returns absolute URL'''
         return reverse('profile', kwargs= {"pk":self.pk})
     
     def get_friends(self):
+        ''' A function to get all friends of the profile self'''
         friends = []
         #add profile to friends list from profile2
         friendsQueryList = list(Friend.objects.filter(profile1=self))
@@ -40,6 +42,7 @@ class Profile(models.Model):
         return friends
     
     def add_friend(self, other):
+        ''' A function to create a friend relationship between self and other'''
         #Check if self and other are not the same user
         if self == other:
             print("cannot friend youself")
@@ -56,6 +59,7 @@ class Profile(models.Model):
         friend.save()
 
     def get_friend_suggestions(self):
+        ''' A function to get a list of friend suggestions'''
         friends = self.get_friends()
         suggestions = []
         for friend in friends:
@@ -64,13 +68,22 @@ class Profile(models.Model):
                 if friend_of_friend != self and friend_of_friend not in suggestions and friend_of_friend not in friends:
                     suggestions.append(friend_of_friend)
         return suggestions
+    
+    def get_news_feed(self):
+        ''' A function to return all the status messages of this profile and profiles it is friends with'''
+        profiles = self.get_friends()
+        profiles.append(self)
 
+        status_messages = []
+        for profile in profiles:
+            status_messages.extend(list(profile.get_status_messages()))
+        return sorted(status_messages, key=lambda msg: msg.timestamp, reverse=True)
 
         
 
     
 class StatusMessage(models.Model):
-
+    ''' StatusMessage object model'''
     message = models.TextField(blank=True)
     timestamp = models.DateTimeField(auto_now=True)
     profile = models.ForeignKey("Profile", on_delete=models.CASCADE)
@@ -88,16 +101,19 @@ class StatusMessage(models.Model):
         return f'{self.message} at {self.timestamp}'
     
 class Image(models.Model):
+    ''' Friend object model'''
     image_file = models.ImageField(blank=True)
     profile = models.ForeignKey("Profile", on_delete=models.CASCADE)
     caption = models.TextField(blank=False)
     timestamp = models.DateTimeField(auto_now=True)
 
 class StatusImage(models.Model):
+    ''' Status Image object model'''
     image = models.ForeignKey("Image", on_delete=models.CASCADE)
     status_message = models.ForeignKey("StatusMessage", on_delete=models.CASCADE)
 
 class Friend(models.Model):
+    ''' Friend object model'''
     profile1 = models.ForeignKey("Profile", on_delete=models.CASCADE, related_name="profile1")
     profile2 = models.ForeignKey("Profile", on_delete=models.CASCADE, related_name="profile2")
     timestamp = models.DateTimeField(auto_now=True)

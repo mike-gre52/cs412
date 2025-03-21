@@ -185,3 +185,20 @@ class ShowFriendSuggestionsView(DetailView):
         #get friend_suggestions
         context['friend_suggestions'] = self.object.get_friend_suggestions()
         return context
+
+class ShowNewsFeedView(DetailView):
+    '''A View to display the newsfeed for a profile'''
+
+    model = Profile
+    template_name = 'mini_fb/news_feed.html'
+    context_object_name = 'news_feed'
+
+    def get_context_data(self, **kwargs):
+        '''Return the dictionary of context variables for use in the template.'''
+
+        # calling the superclass method
+        context = super().get_context_data(**kwargs)
+
+        #get friend_suggestions
+        context['news_feed'] = self.object.get_news_feed()
+        return context
