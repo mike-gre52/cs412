@@ -26,12 +26,28 @@
         <a href="{% url 'update_profile' profile.pk%}">
             <h3 id="profile-button">Update Profile</h3>
         </a>
+
+        <a href="{% url 'friend_suggestions' profile.pk %}">
+            <h3 id="profile-button">Friend Suggestions</h3>
+        </a>
     
         <a href="{% url 'create_status' profile.pk%}">
             <h3 id="profile-button">Add Status Message</h3>
         </a>
     </div>
+
     
+    <h1>Friends:</h1>
+        <div class="friends-container">
+        {% for friend in profile.get_friends %}
+        <div class="friend">
+            <a href="{% url 'profile' friend.pk %}">
+                <img id="" src="{{ friend.image_url }}" >
+            </a>
+            <h3 class="friend-name">{{ friend.first_name }} {{ friend.last_name }}</h3>
+        </div>
+        {% endfor %}
+    </div>
 
     <h1>Status Messages:</h1>
     {% for status_message in profile.get_status_messages %}

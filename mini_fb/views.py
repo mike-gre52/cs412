@@ -1,8 +1,8 @@
 #mini_fb/views.py
 #created by Mike Greene
 
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView #Displays a single instance of one model
+from django.shortcuts import render, redirect
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View #Displays a single instance of one model
 from .models import Profile, Image, StatusImage, StatusMessage
 from .forms import CreateProfileForm, CreateStatusMessageForm, UpdateProfileForm, UpdateStatusMessageForm
 from django.urls import reverse
@@ -149,3 +149,39 @@ class UpdateStatusView(UpdateView):
         
         # reverse to show the article page
         return reverse('profile', kwargs={'pk':profile.pk})
+    
+class AddFriendView(View):
+    '''A view to add a friend'''
+
+    def dispatch(self,request, *args, **kwargs):
+        '''Add a friend relationship'''
+        pk1 = kwargs['pk']
+        pk2 = kwargs['other_pk']
+
+        user1 = Profile.objects.get(pk = pk1)
+        user2 = Profile.objects.get(pk = pk2)
+        user1.add_friend(user2)
+        return redirect(self.get_success_url())
+        #return super().dispatch(request, *args, **kwargs)
+
+    def get_success_url(self):
+        '''Define a URL to be directed to'''
+        pk = self.kwargs.get('pk')
+        return reverse('profile', kwargs={'pk':pk})
+
+class ShowFriendSuggestionsView(DetailView):
+    '''A view to display friend sugggestions for a specific profile '''
+
+    model = Profile
+    template_name = 'mini_fb/friend_suggestions.html'
+    context_object_name = 'profile_suggestions'
+    
+    def get_context_data(self, **kwargs):
+        '''Return the dictionary of context variables for use in the template.'''
+
+        # calling the superclass method
+        context = super().get_context_data(**kwargs)
+
+        #get friend_suggestions
+        context['friend_suggestions'] = self.object.get_friend_suggestions()
+        return context

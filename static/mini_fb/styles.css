@@ -86,3 +86,17 @@ h2, h3 {
   gap: 10px;
   justify-content: space-between;
 }
+
+.friends-container {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.friend {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}

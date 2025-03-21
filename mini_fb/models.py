@@ -26,6 +26,49 @@ class Profile(models.Model):
     def get_absolute_url(self) -> str:
         return reverse('profile', kwargs= {"pk":self.pk})
     
+    def get_friends(self):
+        friends = []
+        #add profile to friends list from profile2
+        friendsQueryList = list(Friend.objects.filter(profile1=self))
+        for friend in friendsQueryList:
+            friends.append(friend.profile2)
+
+        #add profile to friends list from profile1
+        friendsQueryList = list(Friend.objects.filter(profile2=self))
+        for friend in friendsQueryList:
+            friends.append(friend.profile1)
+        return friends
+    
+    def add_friend(self, other):
+        #Check if self and other are not the same user
+        if self == other:
+            print("cannot friend youself")
+            return
+
+        #Check if self and other are not already friends
+        friends = self.get_friends()
+        if other in friends: 
+            print("already friends")
+            return
+
+        #Create new Friend Object
+        friend = Friend.objects.create(profile1=self, profile2=other)
+        friend.save()
+
+    def get_friend_suggestions(self):
+        friends = self.get_friends()
+        suggestions = []
+        for friend in friends:
+            friends_of_friends = friend.get_friends()
+            for friend_of_friend in friends_of_friends:
+                if friend_of_friend != self and friend_of_friend not in suggestions and friend_of_friend not in friends:
+                    suggestions.append(friend_of_friend)
+        return suggestions
+
+
+        
+
+    
 class StatusMessage(models.Model):
 
     message = models.TextField(blank=True)
@@ -45,7 +88,6 @@ class StatusMessage(models.Model):
         return f'{self.message} at {self.timestamp}'
     
 class Image(models.Model):
-
     image_file = models.ImageField(blank=True)
     profile = models.ForeignKey("Profile", on_delete=models.CASCADE)
     caption = models.TextField(blank=False)
@@ -55,4 +97,11 @@ class StatusImage(models.Model):
     image = models.ForeignKey("Image", on_delete=models.CASCADE)
     status_message = models.ForeignKey("StatusMessage", on_delete=models.CASCADE)
 
+class Friend(models.Model):
+    profile1 = models.ForeignKey("Profile", on_delete=models.CASCADE, related_name="profile1")
+    profile2 = models.ForeignKey("Profile", on_delete=models.CASCADE, related_name="profile2")
+    timestamp = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        '''Return a string representation of this Friend object.'''
+        return f'{self.profile1.first_name} & {self.profile2.first_name}'
