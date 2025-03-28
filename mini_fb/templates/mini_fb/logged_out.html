@@ -1,0 +1,17 @@
+<!-- mini_fb/templates/logged_out.html -->
+{% extends 'mini_fb/base.html' %}
+
+{% block content %}
+<!-- This basic authentication form works.
+- need to set "next" to redirect to correct page.
+-->
+
+<h1>You have logged out of Facebooooook</h1>
+<p>Want to log back in?</p>
+
+<a href="{% url 'login' %}">
+    <h3 id="profile-button">Click here</h3>
+</a>
+
+
+{% endblock %}

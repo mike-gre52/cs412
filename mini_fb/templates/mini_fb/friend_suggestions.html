@@ -13,7 +13,7 @@
         {% for friend_suggestion in friend_suggestions %}
         <tr>
             <td><div class="friend">
-                <a href="{% url 'add_friend' object.pk friend_suggestion.pk %}">
+                <a href="{% url 'add_friend' friend_suggestion.pk %}">
                     <img id="" src="{{ friend_suggestion.image_url }}" >
                 </a>
                 <h3 class="friend-name">{{ friend_suggestion.first_name }} {{ friend_suggestion.last_name }}</h3>

@@ -22,23 +22,25 @@
         </tr>
     </table>
 
+    {% if request.user == profile.user %}
     <div class="button-container">
-        <a href="{% url 'update_profile' profile.pk%}">
+        <a href="{% url 'update_profile' %}">
             <h3 id="profile-button">Update Profile</h3>
         </a>
 
-        <a href="{% url 'friend_suggestions' profile.pk %}">
+        <a href="{% url 'friend_suggestions' %}">
             <h3 id="profile-button">Friend Suggestions</h3>
         </a>
     
-        <a href="{% url 'create_status' profile.pk%}">
+        <a href="{% url 'create_status' %}">
             <h3 id="profile-button">Add Status Message</h3>
         </a>
 
-        <a href="{% url 'news_feed' profile.pk%}">
+        <a href="{% url 'news_feed' %}">
             <h3 id="profile-button">News Feed</h3>
         </a>
     </div>
+    {% endif %}
 
     
     <h1>Friends:</h1>

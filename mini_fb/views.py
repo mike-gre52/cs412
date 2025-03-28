@@ -6,6 +6,13 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from .models import Profile, Image, StatusImage, StatusMessage
 from .forms import CreateProfileForm, CreateStatusMessageForm, UpdateProfileForm, UpdateStatusMessageForm
 from django.urls import reverse
+from django.contrib.auth.mixins import LoginRequiredMixin ## NEW
+from django.contrib.auth.forms import UserCreationForm
+
+
+#class CustomLoginRequiredMixin(LoginRequiredMixin):
+
+
 
 # Create your views here.
 
@@ -16,12 +23,20 @@ class ShowAllProfilesView(ListView):
     template_name = 'mini_fb/show_all_profiles.html'
     context_object_name = 'profiles'
 
+    def get_context_data(self, **kwargs):
+        '''Return the dictionary of context variables for use in the template.'''
+        context = super().get_context_data(**kwargs)  
+        context["profile"] = Profile.objects.get(user = self.request.user)
+        return context
+
 class ShowProfilePageView(DetailView):
     ''' Defines a view class to show a sinlge profile '''
 
     model = Profile
     template_name = 'mini_fb/show_profile.html'
     context_object_name = 'profile'
+
+    
 
 class CreateProfileView(CreateView):
     '''A view to create a new Profile and save it to the database.'''
@@ -33,8 +48,29 @@ class CreateProfileView(CreateView):
         '''Return the URL to redirect to after successfully submitting form.'''
 
         return self.object.get_absolute_url()
+    
+    def get_context_data(self, **kwargs):
+        '''Return the dictionary of context variables for use in the template.'''
+        context = super().get_context_data(**kwargs)  
+        context["user_create_form"] = UserCreationForm()
+        return context
+    
+    def form_valid(self, form):
+        '''Process valid form submission.'''
+        user_create_form = UserCreationForm(self.request.POST)  # Recreate UserCreationForm
 
-class CreateStatusMessageView(CreateView):
+        # if valid save a new user and continue with super method
+        if user_create_form.is_valid():
+            user = user_create_form.save() 
+
+            form.instance.user = user 
+            return super().form_valid(form) 
+        
+        # If user form is not valid, re-render the page with errors
+        return self.render_to_response(self.get_context_data(form=form, user_create_form=user_create_form))
+
+
+class CreateStatusMessageView(LoginRequiredMixin, CreateView):
     '''A view to create a new StatusMessage and save it to the database.'''
 
     form_class = CreateStatusMessageForm
@@ -43,7 +79,7 @@ class CreateStatusMessageView(CreateView):
     def get_success_url(self) -> str:
         '''Return the URL to redirect to after successfully submitting form.'''
         #return reverse('show_all')
-        pk = self.kwargs['pk']
+        pk = Profile.objects.get(user = self.request.user).pk
         return reverse('profile', kwargs={'pk':pk})
 
     def get_context_data(self):
@@ -54,12 +90,21 @@ class CreateStatusMessageView(CreateView):
 
         # find/add the profile to the context data
         # retrieve the PK from the URL pattern
-        pk = self.kwargs['pk']
-        profile = Profile.objects.get(pk=pk)
+        profile = Profile.objects.get(user = self.request.user)
 
         # add this profile into the context dictionary:
         context['profile'] = profile
         return context
+    
+    def dispatch(self, request, *args, **kwargs):
+        '''Override the dispatch method to add debugging information.'''
+
+        if request.user.is_authenticated:
+            print(f'ShowAllView.dispatch(): request.user={request.user}')
+        else:
+            print(f'ShowAllView.dispatch(): not logged in.')
+
+        return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         '''This method handles the form submission and saves the 
@@ -68,8 +113,8 @@ class CreateStatusMessageView(CreateView):
         object before saving it to the database.
         '''
 
-        pk = self.kwargs['pk']
-        profile = Profile.objects.get(pk=pk)
+        profile = Profile.objects.get(user = self.request.user)
+
         #attach this profile to the comment
         form.instance.profile = profile # Set the Foreign Key
 
@@ -92,15 +137,21 @@ class CreateStatusMessageView(CreateView):
 
         #delegate the work to the superclass method form_valid:
         return super().form_valid(form)
+    
+    def get_object(self):
+        return Profile.objects.get(user = self.request.user)
 
-class UpdateProfileView(UpdateView):
+class UpdateProfileView(LoginRequiredMixin, UpdateView):
     '''View class to handle update of profile based on its PK.'''
 
     model = Profile
     form_class = UpdateProfileForm
     template_name = "mini_fb/update_profile_form.html"
 
-class DeleteStatusMessageView(DeleteView):
+    def get_object(self):
+        return Profile.objects.get(user = self.request.user)
+
+class DeleteStatusMessageView(LoginRequiredMixin, DeleteView):
     '''A view to delete a StatusMessage and remove it from the database.'''
 
     template_name = "mini_fb/delete_status_message_form.html"
@@ -121,7 +172,7 @@ class DeleteStatusMessageView(DeleteView):
         # reverse to show the article page
         return reverse('profile', kwargs={'pk':profile.pk})
     
-class UpdateStatusView(UpdateView):
+class UpdateStatusView(LoginRequiredMixin, UpdateView):
     '''View class to handle update of Status based on its PK.'''
 
     model = StatusMessage
@@ -150,15 +201,14 @@ class UpdateStatusView(UpdateView):
         # reverse to show the article page
         return reverse('profile', kwargs={'pk':profile.pk})
     
-class AddFriendView(View):
+class AddFriendView(LoginRequiredMixin, View):
     '''A view to add a friend'''
 
     def dispatch(self,request, *args, **kwargs):
         '''Add a friend relationship'''
-        pk1 = kwargs['pk']
         pk2 = kwargs['other_pk']
 
-        user1 = Profile.objects.get(pk = pk1)
+        user1 = Profile.objects.get(user = self.request.user)
         user2 = Profile.objects.get(pk = pk2)
         user1.add_friend(user2)
         return redirect(self.get_success_url())
@@ -166,15 +216,24 @@ class AddFriendView(View):
 
     def get_success_url(self):
         '''Define a URL to be directed to'''
-        pk = self.kwargs.get('pk')
+        user = Profile.objects.get(user = self.request.user)
+        pk = user.pk
         return reverse('profile', kwargs={'pk':pk})
 
-class ShowFriendSuggestionsView(DetailView):
+    def get_object(self):
+        return Profile.objects.get(user = self.request.user)
+
+    
+
+class ShowFriendSuggestionsView(LoginRequiredMixin, DetailView):
     '''A view to display friend sugggestions for a specific profile '''
 
     model = Profile
     template_name = 'mini_fb/friend_suggestions.html'
     context_object_name = 'profile_suggestions'
+
+    def get_object(self):
+        return Profile.objects.get(user = self.request.user)
     
     def get_context_data(self, **kwargs):
         '''Return the dictionary of context variables for use in the template.'''
@@ -186,7 +245,7 @@ class ShowFriendSuggestionsView(DetailView):
         context['friend_suggestions'] = self.object.get_friend_suggestions()
         return context
 
-class ShowNewsFeedView(DetailView):
+class ShowNewsFeedView(LoginRequiredMixin, DetailView):
     '''A View to display the newsfeed for a profile'''
 
     model = Profile
@@ -202,3 +261,6 @@ class ShowNewsFeedView(DetailView):
         #get friend_suggestions
         context['news_feed'] = self.object.get_news_feed()
         return context
+
+    def get_object(self):
+        return Profile.objects.get(user = self.request.user)

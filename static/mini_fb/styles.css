@@ -48,6 +48,7 @@ h2, h3 {
 
 #logo {
   color: #1f556e;
+  text-align: center;
 }
 
 #status_message_button {
@@ -99,4 +100,23 @@ h2, h3 {
   flex-direction: column;
   align-items: center;
   text-align: center;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;  
+  padding: 0;
+  margin: 0;
+}
+
+li a {
+  display: block;
+  text-align: center;
+  padding: 16px;
+  text-decoration: none;
+}
+
+.auth-info {
+  text-align: center;
+  font-weight: bold;
 }

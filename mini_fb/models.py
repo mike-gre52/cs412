@@ -3,6 +3,7 @@
 
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -13,6 +14,7 @@ class Profile(models.Model):
     city = models.TextField(blank=True)
     email = models.TextField(blank=True)
     image_url = models.TextField(blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'Name: {self.first_name} {self.last_name}, City: {self.city}, Email: {self.email}'
@@ -26,6 +28,7 @@ class Profile(models.Model):
     def get_absolute_url(self) -> str:
         '''Returns absolute URL'''
         return reverse('profile', kwargs= {"pk":self.pk})
+    
     
     def get_friends(self):
         ''' A function to get all friends of the profile self'''

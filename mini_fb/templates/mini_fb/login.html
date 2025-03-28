@@ -1,0 +1,25 @@
+<!-- mini_fb/templates/base.html -->
+{% extends 'mini_fb/base.html' %}
+
+{% block content %}
+<!-- This basic authentication form works.
+- need to set "next" to redirect to correct page.
+-->
+
+<h1>Login to mini_fb</h1>
+<form action="{% url 'login' %}" method="POST">
+    {% csrf_token %}
+    {{form}}
+    <input type="submit" value="Login">
+    <!-- This basic login form works, but after login in
+     assumed the existance of a page at /registration/profile, which
+     does not exist.  -->
+    {% if request.GET.next %}
+    <input type="hidden" name="next" value="{{request.GET.next}}">
+    {% else %}
+    <input type="hidden" name="next" value="{% url 'show_all' %}">
+    {% endif %}
+</form>
+
+
+{% endblock %}

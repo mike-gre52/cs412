@@ -13,9 +13,28 @@
                 <h1 id="logo">Facebooooook</h1>
             </a>
 
-            <a href="{% url 'create_profile' %}">
-                <h3>Create Profile</h3>
-            </a>
+                <ul>
+					<!-- URLs for users who are not logged in -->
+                    <li><a href="{% url 'show_all' %}">Show All</a></li>
+
+                    <!-- URLs for logged in users only -->
+                    {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'profile' profile.pk %}">My Profile</a></li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+
+                    <!-- URLs for users who are not logged in -->
+                    {% else %}
+                    <li><a href="{% url 'create_profile' %}">Create Profile</a></li>
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    {% endif %}
+
+                </ul>
+            
+            {% if request.user.is_authenticated %}
+            <p class="auth-info">Logged in user: {{ request.user }}</p>
+            {% else %}
+            <p class="auth-info">Not logged in.</p>
+            {% endif %}
             </nav>
         </header>
     <!-- Substitute specific content here-->
