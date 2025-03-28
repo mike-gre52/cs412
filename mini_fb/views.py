@@ -149,6 +149,13 @@ class UpdateProfileView(LoginRequiredMixin, UpdateView):
     form_class = UpdateProfileForm
     template_name = "mini_fb/update_profile_form.html"
 
+    def get_context_data(self, **kwargs):
+        '''Return the dictionary of context variables for use in the template.'''
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            context["profile"] = Profile.objects.get(user = self.request.user)
+        return context
+
     def get_object(self):
         return Profile.objects.get(user = self.request.user)
 
@@ -158,6 +165,13 @@ class DeleteStatusMessageView(LoginRequiredMixin, DeleteView):
     template_name = "mini_fb/delete_status_message_form.html"
     model = StatusMessage
     context_object_name = 'status_message'
+
+    def get_context_data(self, **kwargs):
+        '''Return the dictionary of context variables for use in the template.'''
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            context["profile"] = Profile.objects.get(user = self.request.user)
+        return context
 
     def get_success_url(self):
         '''Return a the URL to which we should be directed after the delete.'''
@@ -184,6 +198,10 @@ class UpdateStatusView(LoginRequiredMixin, UpdateView):
         '''Make the profile and status_message available in the template.'''
 
         context = super().get_context_data()
+
+
+        if self.request.user.is_authenticated:
+            context["profile"] = Profile.objects.get(user = self.request.user)
         context["profile"] = self.object.profile
         context["status_message"] = self.object
         return context
@@ -242,6 +260,11 @@ class ShowFriendSuggestionsView(LoginRequiredMixin, DetailView):
         # calling the superclass method
         context = super().get_context_data(**kwargs)
 
+            
+        if self.request.user.is_authenticated:
+            context["profile"] = Profile.objects.get(user = self.request.user)
+        return context
+
         #get friend_suggestions
         context['friend_suggestions'] = self.object.get_friend_suggestions()
         return context
@@ -259,6 +282,9 @@ class ShowNewsFeedView(LoginRequiredMixin, DetailView):
         # calling the superclass method
         context = super().get_context_data(**kwargs)
 
+
+        if self.request.user.is_authenticated:
+            context["profile"] = Profile.objects.get(user = self.request.user)
         #get friend_suggestions
         context['news_feed'] = self.object.get_news_feed()
         return context
