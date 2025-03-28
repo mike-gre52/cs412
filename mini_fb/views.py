@@ -25,8 +25,9 @@ class ShowAllProfilesView(ListView):
 
     def get_context_data(self, **kwargs):
         '''Return the dictionary of context variables for use in the template.'''
-        context = super().get_context_data(**kwargs)  
-        context["profile"] = Profile.objects.get(user = self.request.user)
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            context["profile"] = Profile.objects.get(user = self.request.user)
         return context
 
 class ShowProfilePageView(DetailView):
