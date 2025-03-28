@@ -202,7 +202,6 @@ class UpdateStatusView(LoginRequiredMixin, UpdateView):
 
         if self.request.user.is_authenticated:
             context["profile"] = Profile.objects.get(user = self.request.user)
-        context["profile"] = self.object.profile
         context["status_message"] = self.object
         return context
     
