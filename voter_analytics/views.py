@@ -25,7 +25,7 @@ class VotersListView(ListView):
         ''' Provide context variables for use in template '''
         # start with superclass context
         context = super().get_context_data(**kwargs)
-        context['years'] = reversed(range(1900, 2025))
+        context['years'] = list(reversed(range(1900, 2025)))
         return context
 
 
@@ -193,5 +193,6 @@ class GraphsListView(ListView):
         context['graph_div_election'] = graph_election
         context['voters'] = voters
 
+        context['years'] = list(reversed(range(1900, 2025)))
         return context
         

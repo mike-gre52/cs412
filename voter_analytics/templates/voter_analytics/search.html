@@ -38,13 +38,12 @@
         </select> <br>
 
         <label for="max_dob">Maximum DOB: </label>
-        
         <select name="max_dob" id="max_dob">
-          <option value="Any">Any</option>
+            <option value="Any">Any</option>
             {% for year in years %}
-            <option value="{{year}}">{{ year }}</option>
+                <option value="{{ year }}">{{ year }}</option>
             {% endfor %}
-          </select> <br>
+        </select> <br>
 
         <label for="voter_score">Voter Score: </label>
         <select name="voter_score" id="voter_score">
