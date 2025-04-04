@@ -1,0 +1,74 @@
+<form>
+    <label for="party">Party: </label>
+    <select name="party" id="party">
+        <option value="Any">Any</option>
+        <option value="U ">U</option>
+        <option value="D ">D</option>
+        <option value="R ">R</option>
+        <option value="CC">CC</option>
+        <option value="L ">L</option>
+        <option value="J ">J</option>
+        <option value="T ">T</option>
+        <option value="O ">O</option>
+        <option value="A ">A</option>
+        <option value="Q ">Q</option>
+        <option value="S ">S</option>
+        <option value="G ">G</option>
+        <option value="X ">X</option>
+        <option value="AA">AA</option>
+        <option value="Z ">Z</option>
+        <option value="FF">FF</option>
+        <option value="GG">GG</option>
+        <option value="V ">V</option>
+        <option value="HH">HH</option>
+        <option value="P ">P</option>
+        <option value="E ">E</option>
+        <option value="H ">H</option>
+        <option value="Y ">Y</option>
+        <option value="W ">W</option>
+        <option value="EE">EE</option>
+      </select> <br>
+
+      <label for="min_dob">Minimum DOB: </label>
+      <select name="min_dob" id="min_dob">
+        <option value="Any">Any</option>
+        {% for year in years %}
+            <option value="{{year}}">{{ year }}</option>
+        {% endfor %}
+        </select> <br>
+
+        <label for="max_dob">Maximum DOB: </label>
+        
+        <select name="max_dob" id="max_dob">
+          <option value="Any">Any</option>
+            {% for year in years %}
+            <option value="{{year}}">{{ year }}</option>
+            {% endfor %}
+          </select> <br>
+
+        <label for="voter_score">Voter Score: </label>
+        <select name="voter_score" id="voter_score">
+          <option value="Any">Any</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+        </select> <br>
+
+        <input type="checkbox" id="v20state" name="v20state" value="v20state">
+        <label for="v20state">v20state</label><br>
+
+        <input type="checkbox" id="v21town" name="v21town" value="v21town">
+        <label for="v21town">v21town</label><br>
+
+        <input type="checkbox" id="v21primary" name="v21primary" value="v21primary">
+        <label for="v21primary">v21primary</label><br>
+
+        <input type="checkbox" id="v22general" name="v22general" value="v22general">
+        <label for="v22general">v22general</label><br>
+
+        <input type="checkbox" id="v23town" name="v23town" value="v23town">
+        <label for="v23town">v23town</label><br>
+    <input type="submit" value="Submit">
+</form>
