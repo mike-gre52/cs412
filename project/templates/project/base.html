@@ -1,0 +1,41 @@
+<!-- project/templates/project/base.html -->
+<!-- created by Mike Greene -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VideoGames</title>
+    <link rel="stylesheet" href="{% static 'project/styles.css' %}">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-left">
+                <a href="{% url 'show_all' %}" class="nav-link">Profiles</a>
+                <a href="{% url 'show_all_videogames' %}" class="nav-link">Video Games</a>
+                <a href="{% url 'reviews' %}" class="nav-link">Activity</a>
+
+                <!-- URLs for logged in users only -->
+                {% if request.user.is_authenticated %}
+                <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+
+                <!-- URLs for users who are not logged in -->
+                {% else %}
+                <a href="{% url 'create_profile' %}" class="nav-link">Create Profile</a>
+                <a href="{% url 'login' %}" class="nav-link">Login</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; Create by Mike Greene</p>
+    </footer>
+</body>
+</html>

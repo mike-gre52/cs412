@@ -1,0 +1,37 @@
+<!-- templates/project/show_all_videogames.html -->
+<!-- created by Mike Greene -->
+{% extends 'project/base.html' %}
+
+{% block content %}
+<h1 id="page_header">Video Games</h1>
+
+<div class="row">
+    {% include "project/search_games.html" %}    
+</div>
+
+<main>
+    <div class="profile-list">
+        {% for videogame in videogames %}
+        <div class="profile-card">
+            <div class="profile-image">
+                <a href="{% url 'videogame' videogame.pk %}">
+                    <img src="{{ videogame.cover_image }}" alt="{{ videogame.title }} Cover">
+                </a>
+            </div>
+            <div class="profile-info">
+                <a href="{% url 'videogame' videogame.id %}">
+                    <h2 class="game-title">{{ videogame.title }}</h2>
+                </a>
+                <p><span class="label">Developer:</span> {{ videogame.developer }}</p>
+                <p><span class="label">Release Date:</span> {{ videogame.release_date }}</p>
+                <p><span class="label">Platforms:</span> {{ videogame.platforms }}</p>
+                <p><span class="label">Genre:</span> {{ videogame.genre }}</p>
+                <p class="game-description">{{ videogame.description }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    
+</main>
+{% endblock %}

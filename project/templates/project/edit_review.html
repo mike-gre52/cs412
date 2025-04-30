@@ -1,0 +1,23 @@
+<!-- project/add_review.html -->
+<!-- created by Mike Greene -->
+{% extends 'project/base.html' %}
+
+{% block content %}
+<h1>Edits a Review</h1>
+
+<!-- display the HTML form -->
+ <form accept="{% url 'create_profile' %}" method="POST">
+    {% csrf_token %}
+    <table>
+        {{form.as_table}}
+        
+     </table>
+
+     <input type="submit" name="submit" value="Submit">
+ </form>
+ <form action="{% url 'profile' profile.pk %}" method="GET">
+    <input type="submit" value="Cancel">
+ </form>
+
+
+{% endblock %}

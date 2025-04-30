@@ -1,0 +1,41 @@
+<!-- templates/project/show_all_reviews.html -->
+<!-- created by Mike Greene -->
+{% extends 'project/base.html' %}
+
+{% block content %}
+<h1 id="page_header">Reviews</h1>
+
+<main>
+    
+    <div class="reviews-container">
+        {% for review in reviews %}
+            <div class="review-entry">
+                <div class="review-meta">
+                    <img src="{{ review.profile.image_file.url }}" alt="{{ review.profile.first_name }} {{ review.profile.last_name }}" class="review-avatar">
+                    <div class="reviewer-details">
+                        <strong>{{ review.profile.first_name }} {{ review.profile.last_name }}</strong>
+                        <span class="review-game">on <em>{{ review.video_game.title }}</em></span>
+                    </div>
+                </div>
+                <div class="review-body">
+                    <!-- Game Cover Image -->
+                    <img src="{{ review.video_game.cover_image }}" alt="{{ review.video_game.title }}" class="game-cover">
+                    
+                    <!-- Review Content -->
+                    <div class="review-content">
+                        <p class="review-message">“{{ review.message }}”</p>
+                        <p class="review-rating">Rating: <strong>{{ review.rating }}/5</strong></p>
+                    </div>
+                </div>
+                <!-- Timestamp (Moved to the left) -->
+                <p class="review-timestamp">{{ review.timestamp|date:"F j, Y, g:i a" }}</p>
+            </div>
+        {% endfor %}
+    </div>
+    
+    
+    
+    
+    
+</main>
+{% endblock %}

@@ -1,0 +1,35 @@
+<!-- project/templates/project/search_games.html -->
+ <!-- Created by Mike Greene -->
+<h1>Search Form</h1>
+
+<table>
+<form action="{% url 'show_all_videogames' %}">
+
+    <tr>
+        <th>Genre:</th>
+        <td><input type="text" name="genre"></td>
+
+        <label for="min_dob">Oldest Release Date: </label>
+        <select name="min_date" id="min_date">
+          <option value="Any">Any</option>
+          {% for year in years %}
+              <option value="{{year}}">{{ year }}</option>
+          {% endfor %}
+          </select> <br>
+  
+          <label for="max_dob">Newest Release Date: </label>
+          <select name="max_date" id="max_date">
+              <option value="Any">Any</option>
+              {% for year in years %}
+                  <option value="{{ year }}">{{ year }}</option>
+              {% endfor %}
+          </select> <br>
+    </tr>
+    
+    <tr>
+        <td><input type="submit"></td>
+        <td></td>
+    </tr>
+    
+</form>
+</table>

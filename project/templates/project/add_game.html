@@ -1,0 +1,30 @@
+<!-- templates/project/add_game.html -->
+<!-- created by Mike Greene -->
+{% extends 'project/base.html' %}
+
+{% block content %}
+<h1 id="page_header">Select Game</h1>
+
+<main>
+    <div class="profile-list">
+        {% for videogame in videogames %}
+        <a href="{% url 'add_game' profile_pk videogame.pk %}">
+            <div class="profile-card">
+                <div class="profile-image"> 
+                        <img src="{{ videogame.cover_image }}" alt="{{ videogame.title }} Cover">
+                </div>
+                <div class="profile-info">
+                        <h2 class="game-title">{{ videogame.title }}</h2>
+                    <p><span class="label">Developer:</span> {{ videogame.developer }}</p>
+                    <p><span class="label">Release Date:</span> {{ videogame.release_date }}</p>
+                    <p><span class="label">Platforms:</span> {{ videogame.platforms }}</p>
+                    <p class="game-description">{{ videogame.description }}</p>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    
+    
+</main>
+{% endblock %}

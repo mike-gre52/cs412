@@ -1,0 +1,64 @@
+<!-- templates/project/show_video_game.html -->
+<!-- created by Mike Greene -->
+{% extends 'project/base.html' %}
+
+{% block content %}
+
+
+<main class="profile-container">
+
+    <!-- Videogame Card -->
+
+    <div class="profile-card">
+        <div class="profile-image">
+                <img src="{{ videogame.cover_image }}" alt="{{ videogame.title }} Cover">
+        </div>
+        <div class="profile-info">
+            <a href="{% url 'profile' videogame.id %}">
+                <h2 class="game-title">{{ videogame.title }}</h2>
+            </a>
+            <p><span class="label">Developer:</span> {{ videogame.developer }}</p>
+            <p><span class="label">Release Date:</span> {{ videogame.release_date }}</p>
+            <p><span class="label">Platforms:</span> {{ videogame.platforms }}</p>
+            <p class="game-description">{{ videogame.description }}</p>
+        </div>
+    </div>
+
+    <!-- Reviews -->
+
+    <h1 id="page_header">Reviews</h1>
+
+    <div class="reviews-container">
+        {% for review in reviews %}
+            <div class="review-entry">
+                <div class="review-meta">
+                    <a href="{% url 'profile' review.profile.pk %}" class="review-link" >
+                        <img src="{{ review.profile.image_file.url }}" alt="{{ review.video_game.title }}" class="review-avatar">
+                        <div class="reviewer-details">
+                            <strong>{{ review.profile.first_name }} {{ review.profile.last_name }}</strong>
+                            <span class="review-game">on <em>{{ review.video_game.title }}</em></span>
+                        </div>
+                    </a>
+                </div>
+                <div class="review-content">
+                    <p class="review-message">“{{ review.message }}”</p>
+                    <p class="review-rating">Rating: <strong>{{ review.rating }}/5</strong></p>
+                </div>
+                <!-- Timestamp (Moved to the left) -->
+                <p class="review-timestamp">{{ review.timestamp|date:"F j, Y, g:i a" }}</p>
+            </div>
+        {% endfor %}
+    </div>
+    
+    
+    
+
+
+
+  
+
+</main>
+
+
+
+{% endblock %}

@@ -1,0 +1,113 @@
+<!-- templates/project/show_profile.html -->
+<!-- created by Mike Greene -->
+{% extends 'project/base.html' %}
+
+{% block content %}
+
+
+<main class="profile-container">
+    
+
+    <div class="header-row">
+        <h1 id="page_header">Profile</h1>
+        <a href="{% url 'videogame_lists' profile.pk %}" class="back-button"> Video Game Lists -></a>
+    </div>
+
+    <!-- Profile Card -->
+
+    <div class="profile-card large">
+        <div class="profile-image">
+            <img id="individual_profile" src="{{ profile.image_file.url }}" alt="{{ profile.first_name }} {{ profile.last_name }}">
+        </div>
+        <div class="profile-info">
+            <h2>{{ profile.first_name }} {{ profile.last_name }}</h2>
+            <h3>Email: {{ profile.email }}</h3>
+            <h3>Joined: {{ profile.join_date|date:"F j, Y" }}</h3>
+        </div>
+    </div>
+
+    <!-- Favorite Video Games section -->
+
+
+    <div class="section-header">
+        <h1 id="page_header">Favorited Games</h1>
+        {% if request.user == profile.user %}
+        <a href="{% url 'select_add_game' profile.pk %}" class="add-button" title="Add a Friend">+</a>
+        {% endif %}
+    </div>
+
+    <div class="card-container compact">
+        {% for game in profile.get_favorite_video_games %}
+            <div class="card small">
+                <a href="{% url 'videogame' game.pk %}">
+                    <img src="{{ game.video_game.cover_image }}" alt="{{ game.video_game.title }}">
+                    <p class="card-name">{{ game.video_game.title }}</p>
+                </a>
+                <a href="{% url 'add_review' profile.pk game.pk %}" class="review-button-outline">Review</a>
+            </div>
+        {% endfor %}
+    </div>
+
+
+    <!-- Friends -->
+
+    <div class="section-header">
+        <h1 id="page_header">Friends</h1>
+        {% if request.user == profile.user %}
+        <a href="{% url 'select_add_friend' profile.pk %}" class="add-button" title="Add a Friend">+</a>
+        {% endif %}
+    </div>
+
+
+    <div class="card-container compact">
+        {% for friend in profile.get_friends %}
+        <a href="{% url 'profile' friend.pk %}" class="card small">
+            <img src="{{ friend.image_file.url }}" alt="{{ friend.first_name }} {{ friend.last_name }}">
+            <p class="card-name">{{ friend.first_name }} {{ friend.last_name }}</p>
+        </a>
+        {% endfor %}
+    </div>
+
+    <!-- Reviews -->
+
+    <div class="section-header">
+        <h1 id="page_header">Reviews</h1>
+    </div>
+
+    <div class="reviews-container">
+        {% for review in reviews %}
+            <div class="review-entry">
+                <div class="review-body">
+                    <a href="{% url 'videogame' review.video_game.pk %}">
+                        <img src="{{ review.video_game.cover_image }}" alt="{{ review.video_game.title }}" class="game-cover">
+                    </a>
+                    <div class="review-content">
+                        <div class="reviewer-details">
+                            <strong>{{ review.video_game.title }}</strong>
+                        </div>
+                        <p class="review-message">“{{ review.message }}”</p>
+                        <p class="review-rating">Rating: <strong>{{ review.rating }}/5</strong></p>
+                    </div>
+                </div>
+                <!-- Time -->
+                <p class="review-timestamp">{{ review.timestamp|date:"F j, Y, g:i a" }}</p>
+
+                {% if request.user == profile.user %}
+                <div class="review-actions">
+                    <a href="{% url 'edit_review' profile.pk review.pk%}" class="review-icon">Edit</a>
+                    <a href="{% url 'delete_review' profile.pk review.pk%}" class="review-icon">Delete</a>
+                </div>
+                {% endif %}
+                
+            </div>
+        {% endfor %}
+    </div>
+    
+    
+    
+
+</main>
+
+
+
+{% endblock %}

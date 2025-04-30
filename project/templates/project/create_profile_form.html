@@ -1,0 +1,22 @@
+<!-- project/create_profile_form.html -->
+<!-- created by Mike Greene -->
+{% extends 'project/base.html' %}
+
+{% block content %}
+<h1>Create a new Article</h1>
+
+<!-- display the HTML form -->
+ <form accept="{% url 'create_profile' %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <table>
+        {{form.as_table}}
+        {{user_create_form.as_table}}
+        
+     </table>
+
+     <input type="submit" name="submit" value="Submit">
+ </form>
+
+
+
+{% endblock %}

@@ -1,0 +1,14 @@
+<!-- project/create_videogamelist.html -->
+<!-- created by Mike Greene -->
+{% extends 'project/base.html' %}
+
+{% block content %}
+  <div class="container">
+    <h1>Create New Video Game List</h1>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary">Create List</button>
+    </form>
+  </div>
+{% endblock %}

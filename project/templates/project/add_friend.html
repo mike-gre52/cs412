@@ -1,0 +1,26 @@
+<!-- templates/project/add_friend.html -->
+<!-- created by Mike Greene -->
+{% extends 'project/base.html' %}
+
+{% block content %}
+<h1 id="page_header">Showing all Profiles</h1>
+
+<main>
+    <div class="profile-list">
+        {% for profile in profiles %}
+        <a href="{% url 'added_friend' current_profile_pk profile.pk %}">
+            <div class="profile-card">
+                <div class="profile-image">
+                        <img src="{{ profile.image_file.url }}" alt="{{ profile.first_name }} {{ profile.last_name }}">
+                </div>
+                <div class="profile-info">
+                        <h2>{{ profile.first_name }} {{ profile.last_name }}</h2>
+                    <h3>Joined: {{ profile.join_date|date:"F j, Y" }}</h3>
+                </div>
+            </div>
+            {% endfor %}
+        </a>
+    </div>
+    
+</main>
+{% endblock %}

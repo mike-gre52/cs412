@@ -14,7 +14,7 @@ class Profile(models.Model):
     city = models.TextField(blank=True)
     email = models.TextField(blank=True)
     image_url = models.TextField(blank=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='mini_fb_profile')
 
     def __str__(self):
         return f'Name: {self.first_name} {self.last_name}, City: {self.city}, Email: {self.email}'

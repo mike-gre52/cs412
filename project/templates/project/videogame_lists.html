@@ -1,0 +1,57 @@
+<!-- templates/project/videogame_list.html -->
+<!-- created by Mike Greene -->
+{% extends 'project/base.html' %}
+
+{% block content %}
+  <div class="container">
+    <div class="header-row">
+        <h1>{{ profile.first_name }}'s Video Game Lists</h1>
+        <a href="{% url 'profile' profile.pk %}" class="back-button">Back</a>
+    </div>
+
+    {% if request.user == profile.user %}
+    <a href="{% url 'create_videogamelist' profile.pk %}" class="back-button">Add List</a>
+    {% endif %}
+
+   
+
+    {% if videogame_lists %}
+      {% for game_list in videogame_lists %}
+        <div class="list-card">
+          <div class="list-card-header">
+            <h2>{{ game_list.name }}</h2>
+            <a href="{% url 'delete_videogamelist' profile.pk game_list.pk %}" class="back-button">Delete</a>
+          </div>
+          <ul>
+            {% for videogame in game_list.games.all %}
+
+            <!-- Show Game Card -->
+
+            <div class="profile-card">
+                <div class="profile-image">
+                        <img src="{{ videogame.cover_image }}" alt="{{ videogame.title }} Cover">
+                </div>
+                <div class="profile-info">
+                    <a href="{% url 'profile' videogame.id %}">
+                        <h2 class="game-title">{{ videogame.title }}</h2>
+                    </a>
+                    <p><span class="label">Developer:</span> {{ videogame.developer }}</p>
+                    <p><span class="label">Release Date:</span> {{ videogame.release_date }}</p>
+                    <p><span class="label">Platforms:</span> {{ videogame.platforms }}</p>
+                    <p class="game-description">{{ videogame.description }}</p>
+                </div>
+            </div>
+
+            {% empty %}
+              <li>No games in this list.</li>
+            {% endfor %}
+          </ul>
+          <p class="timestamp">Created on: {{ game_list.timestamp|date:"F j, Y, g:i a" }}</p>
+        </div>
+        <hr>
+      {% endfor %}
+    {% else %}
+      <p>No video game lists have been created yet.</p>
+    {% endif %}
+  </div>
+{% endblock %}
